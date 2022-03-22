@@ -2,6 +2,7 @@ import express, { Response, NextFunction } from "express";
 import Request from "./types/Request";
 import HttpStatusCodes from "http-status-codes";
 import userRouter from "./routes/api/user";
+import newsRouter from "./routes/api/news";
 
 const app = express();
 // Main middleware
@@ -9,6 +10,7 @@ app.use(express.json())
 
 // Routes
 app.use('/api/user', userRouter)
+app.use('/api/news', newsRouter)
 
 // No route matched, 404 not found
 app.use((req: Request, res: Response, next: NextFunction)=>{
