@@ -2,6 +2,7 @@ import IUser from "../interfaces/IUser";
 import IUserModel from "../interfaces/IUserModel";
 import AuthService from "./authService";
 import User from "../models/user.model";
+import Messages from "../config/Messages";
 import bcrypt from 'bcrypt';
 
 export default class UserService {
@@ -28,5 +29,18 @@ export default class UserService {
   }
   public findUser(username: string) {
     return this.userModel.getUsers().find((user) => user.username === username)
+  }
+  
+  public async findByCredentials(username: string, password: string) {
+    const users = this.userModel.getUsers()
+    const user = users.find((user)=> user.username === username)
+    if (!user) {
+      throw new Error(Messages.user.error.INCORRECT_CREDENTIALS);
+    }
+    const isMatched = await bcrypt.compare(password, user.password);
+    if (!isMatched) {
+      throw new Error(Messages.user.error.INCORRECT_CREDENTIALS);
+    }
+    return user;
   }
 }
