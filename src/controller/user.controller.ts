@@ -2,17 +2,17 @@ import Request from "../types/Request";
 import { Response } from "express";
 import HttpStatusCodes from "http-status-codes";
 import IUser from "../interfaces/IUser";
-import UserService from '../services/userService';
-import AuthService from '../services/authService';
+import UserService from "../services/userService";
+import AuthService from "../services/authService";
 
 export default class UserController {
-  userService = new UserService()
+  userService = new UserService();
   authService = new AuthService();
 
   public signup = async (req: Request, res: Response) => {
     try {
       const user_data: IUser = { ...req.body };
-      const user = await this.userService.addUser(user_data)
+      const user = await this.userService.addUser(user_data);
       return res.status(HttpStatusCodes.CREATED).send({ token: user.token });
     } catch (error) {
       return res
