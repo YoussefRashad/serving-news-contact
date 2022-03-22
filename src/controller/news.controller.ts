@@ -4,10 +4,9 @@ import NewsService from '../services/newsService';
 
 export default class NewsController {
   newsService = new NewsService()
-
-  public fetchNews = async (res: Response) => {
+  public fetchNews = async (req: any, res: Response) => {
     try {
-      const news = await this.newsService.fetchNews("")
+      const news = await this.newsService.fetchNews(req.body?.query)
       return res.status(HttpStatusCodes.OK).send({ news });
     } catch (error) {
       return res
