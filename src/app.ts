@@ -17,5 +17,5 @@ app.use((req: Request, res: Response, next: NextFunction)=>{
     res.status(HttpStatusCodes.BAD_REQUEST).send(`${req.originalUrl} is not exist`)
 })
 
-const PORT = process.env.PORT || 3000
+const PORT = 3000
 const server = app.listen(PORT, () => console.log(`server is up on port ${PORT}`))
