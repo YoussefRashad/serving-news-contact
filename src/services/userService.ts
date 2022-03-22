@@ -8,6 +8,10 @@ export default class UserService {
   userModel = new User();
 
   public addUser(user: IUser) {
+    const userExist = this.findUser(user.username)
+    if (userExist) {
+      throw new Error("username is exist")
+    }
     const new_user: IUserModel = {
       user_id: this.userModel.getUsers().length + 1,
       ...user,
@@ -19,5 +23,8 @@ export default class UserService {
       new_user,
       token,
     };
+  }
+  public findUser(username: string) {
+    return this.userModel.getUsers().find((user) => user.username === username)
   }
 }
