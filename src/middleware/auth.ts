@@ -6,9 +6,9 @@ import config from "../config/default";
 import Payload from "../types/Payload";
 import Request from "../types/Request";
 
-export default function(req: Request, res: Response, next: NextFunction) {
+export default function (req: Request, res: Response, next: NextFunction) {
   // Get token from header
-  let token = req.header('Authorization')?.replace('Bearer ', '')
+  let token = req.header("Authorization")?.replace("Bearer ", "");
   // Check if no token
   if (!token) {
     return res
@@ -18,7 +18,25 @@ export default function(req: Request, res: Response, next: NextFunction) {
   // Verify token
   try {
     const payload: Payload | any = jwt.verify(token, config.jwtSecret);
-    req.user_id = payload._id;
+    
+    // check if the user has a token or not
+
+    // const user = new User().getUsers().find((user) => {
+    //   return (
+    //     user.user_id === payload.user_id &&
+    //     user.tokens.find((user_token) => {
+    //       return user_token === token;
+    //     })
+    //   );
+    // });
+    
+    // if (!user) {
+    //   return res
+    //   .status(HttpStatusCodes.UNAUTHORIZED)
+    //   .json({ msg: Messages.user.error.INVALIDED_TOKEN });
+    // }
+
+    req.user_id = payload.user_id;
     next();
   } catch (err) {
     res
