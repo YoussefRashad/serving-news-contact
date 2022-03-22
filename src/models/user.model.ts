@@ -4,13 +4,13 @@ export default class User {
     {
       user_id: 1,
       username: "youssef_rashad",
-      password: "123456789",
+      password: "$2b$08$7019zolT81PgNuvGGhg7v.HwbFMbKuz9Rtqc.yq6sZy7VyVTZY1Hq", // 123456789
       tokens: [],
     },
     {
       user_id: 2,
       username: "youssef_rashad2",
-      password: "123456789",
+      password: "$2b$08$7019zolT81PgNuvGGhg7v.HwbFMbKuz9Rtqc.yq6sZy7VyVTZY1Hq", // 123456789
       tokens: [],
     },
   ]
