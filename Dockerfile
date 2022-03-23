@@ -20,4 +20,4 @@ RUN npm run build
 COPY . .
 
 EXPOSE 3000
-CMD [ "node", "./dist/app.js" ]
+CMD [ "pm2-runtime", "./dist/app.js" ]
