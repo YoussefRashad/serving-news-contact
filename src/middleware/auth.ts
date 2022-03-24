@@ -5,6 +5,7 @@ import Messages from "../config/Messages";
 import config from "../config/default";
 import Payload from "../types/Payload";
 import Request from "../types/Request";
+import User from '../models/user.model';
 
 export default function (req: Request, res: Response, next: NextFunction) {
   // Get token from header
@@ -15,26 +16,18 @@ export default function (req: Request, res: Response, next: NextFunction) {
       .status(HttpStatusCodes.UNAUTHORIZED)
       .json({ msg: Messages.user.error.UNAUTHORIZED_TOKEN });
   }
-  // Verify token
   try {
     const payload: Payload | any = jwt.verify(token, config.jwtSecret);
-    
     // check if the user has a token or not
-
-    // const user = new User().getUsers().find((user) => {
-    //   return (
-    //     user.user_id === payload.user_id &&
-    //     user.tokens.find((user_token) => {
-    //       return user_token === token;
-    //     })
-    //   );
-    // });
-    
-    // if (!user) {
-    //   return res
-    //   .status(HttpStatusCodes.UNAUTHORIZED)
-    //   .json({ msg: Messages.user.error.INVALIDED_TOKEN });
-    // }
+    const user = new User().getUsers().find((user) => {
+      const hasToken = user.tokens[0]?.token === token
+      return (user.user_id === payload.user_id) && hasToken
+    });
+    if (!user) {
+      return res
+      .status(HttpStatusCodes.UNAUTHORIZED)
+      .json({ msg: Messages.user.error.INVALIDED_TOKEN });
+    }
 
     req.user_id = payload.user_id;
     next();
